@@ -1,0 +1,4 @@
+theme = "dracula"
+template = "template-1"
+home_template = "home-template"
+code_theme = "https://unpkg.com/dracula-prism/dist/css/dracula-prism.css"

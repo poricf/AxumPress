@@ -1,7 +1,7 @@
 [package]
 name = "axumpress"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 axum = "0.7"
@@ -13,3 +13,5 @@ serde = { version = "1.0", features = ["derive"] }
 tower-http = { version = "0.5", features = ["fs"] }
 clap = { version = "4.4", features = ["derive"] }
 anyhow = "1.0"
+toml = "0.8.21"
+comrak = "0.11"
