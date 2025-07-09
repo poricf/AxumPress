@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="hello-world">
+        <h1>{{ greeting }}</h1>
+        <p>Hello World! 👋</p>
+        {{ content|safe }}
+    </div>
+{% endblock %}
