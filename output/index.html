@@ -31,7 +31,26 @@
         </div>
     </nav>
     <main class="content">
-        {body}
+        <h1>Blog Posts</h1>
+        <div class="blog-posts">
+            <article class="blog-post">
+                <h2><a href="/content/index.html">index</a></h2>
+                <p class="post-preview">  Welcome to my Rust-powered blog. This is my first post!</p>
+                <a href="/content/index.html" class="read-more">Read more →</a>
+            </article><article class="blog-post">
+                <h2><a href="/content/learning-rust-part-1.html">learning-rust-part-1</a></h2>
+                <p class="post-preview"> Welcome to my Rust journey! In this first part, I’ll share why I started learning Rust and my first impressions.  - Memory safety without garbage collection - Great performance - Modern tooling and p...</p>
+                <a href="/content/learning-rust-part-1.html" class="read-more">Read more →</a>
+            </article><article class="blog-post">
+                <h2><a href="/content/learning-rust-part-2.html">learning-rust-part-2</a></h2>
+                <p class="post-preview"> In Part 2 of my Rust journey, I dive deeper into ownership, borrowing, and lifetimes.  Rust’s ownership system ensures memory safety. At first, it’s confusing, but it prevents a lot of bugs!  - Each ...</p>
+                <a href="/content/learning-rust-part-2.html" class="read-more">Read more →</a>
+            </article><article class="blog-post">
+                <h2><a href="/content/learning-rust-part-3.html">learning-rust-part-3</a></h2>
+                <p class="post-preview"> In this post, we'll walk through how this very blog engine was built using Rust, Markdown, and the [Askama](https://github.com/djc/askama) templating engine.   Rust offers safety, speed, and a great ...</p>
+                <a href="/content/learning-rust-part-3.html" class="read-more">Read more →</a>
+            </article>
+        </div>
     </main>
     <button id="backToTop" style="display:none; position:fixed; bottom:20px; right:20px; background: none; border: none; font-size: 24px; color: white;">
         <i class="fas fa-arrow-up"></i>

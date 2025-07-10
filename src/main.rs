@@ -1,4 +1,3 @@
-// use clap::Parser;
 use crate::toml_config::Config;
 use std::{fs, io, path::Path};
 use std::process;
@@ -40,19 +39,19 @@ async fn main() -> io::Result<()> {
 
     // store converted post (filename , slug , preview) for later homepage generation
     let mut contents = Vec::new();
-
+    
     // check for contents directory 
     let content_directory = Path::new("content");
+    println!("{}", content_directory.to_str().unwrap());
 
     if !content_directory.exists() {
-       eprintln!("❌ 'Contents/' directory is missing. Please create it and add .md files.");
+       eprintln!("❌ 'Content' directory is missing. Please create it and add .md files.");
         process::exit(1);
     }
     else {
-        println!("📂 Found 'Contents/' folder. Starting to generate posts...");
+        println!("📂 Found 'Contents' folder. Starting to generate posts...");
     }
-
-    // read each markdown file and  convert it to HTML 
+    // read each markdown file and  convert it to HTML
     for entry in fs::read_dir(content_directory)?{
         let entry = entry?;
         let path = entry.path();
@@ -87,6 +86,16 @@ async fn main() -> io::Result<()> {
     fs::write("output/index.html", home_page_html.as_bytes()).map_err(|e| {
         io::Error::new(io::ErrorKind::Other, format!("Failed to write index.html: {}", e))
     })?;
+
+    // just add about_template.html to the output folder
+    let about_template_path = "templates/about_template.html";  
+    if Path::new(about_template_path).exists() {
+        fs::copy(about_template_path, "output/about/about.html").map_err(|e| {
+            io::Error::new(io::ErrorKind::Other, format!("Failed to copy about template: {}", e))
+        })?;
+    } else {
+        eprintln!("❌ About template not found at '{}'. Skipping copy.", about_template_path);
+    }
 
     println!("✅ Blog built successfully!");
     println!("🌐 Starting local server at http://localhost:3000");
