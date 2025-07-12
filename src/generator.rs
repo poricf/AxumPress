@@ -1,41 +1,57 @@
+use askama::Template; 
+use crate::config::HeroConfig; // 
 use std::{fs, io, path::Path};
+use crate::config::read_config;
+
+
+
+
+
+#[derive(Template)]
+#[template(path = "home.html")] // <-- This tells Askama to use templates/home.html
+struct HomeTemplate<'a> {
+    // We pass a reference to the hero config
+    hero: &'a HeroConfig,
+}
 
 pub fn create_output_folders() -> io::Result<()> {
-    let folders = ["output", "output/about", "output/content", "output/css"];
+    let folders = ["output", "output/about", "output/content", "output/css" , "output/js"];
     for folder in folders {
         if !Path::new(folder).exists() {
             fs::create_dir(folder)?;
-        }
-    }
+        }    
+    }    
     Ok(())
+}    
+
+pub fn generate_home_page(hero_config: &HeroConfig) -> io::Result<()> {
+    let template = HomeTemplate { hero: hero_config };
+
+    let html_content = template.render().map_err(|e| { // This line will now work
+        io::Error::new(io::ErrorKind::Other, format!("Failed to render template: {}", e))
+    })?;
+
+    fs::write("output/index.html", html_content)
 }
 
-pub fn generate_home_page(
-    posts: &[(String, String, String)],
-    template_path: &str,
-) -> io::Result<String> {
-    let mut posts_html = String::new();
 
-    for (title, path, preview) in posts {
-        posts_html.push_str(&format!(
-            r#"<article class="blog-post">
-                <h2><a href="/content/{}.html">{}</a></h2>
-                <p class="post-preview">{}</p>
-                <a href="/content/{}.html" class="read-more">Read more →</a>
-            </article>"#,
-            path, title, preview, path
-        ));
-    }
 
-    let template = fs::read_to_string(template_path)?;
-    let final_html = template.replace(
-        "{body}",
-        &format!(
-            r#"<h1>Blog Posts</h1>
-               <div class="blog-posts">{}</div>"#,
-            posts_html
-        ),
-    );
+pub fn build_site() -> io::Result<()> {
+    println!("Reading configuration...");
+    let config = read_config("config.toml")?;
+    let paths = config.build_paths();
 
-    Ok(final_html)
+    println!("Preparing output directories...");
+    create_output_folders()?;
+
+    println!("Copying assets...");
+    config.copy_css_if_exists(&paths.css)?;
+    config.copy_js_if_exists()?;
+    config.copy_about_page_if_exists()?;
+
+    println!("Generating homepage...");
+    generate_home_page(&config.hero)?;
+
+    println!("\n✅ Site built successfully!");
+    Ok(())
 }
