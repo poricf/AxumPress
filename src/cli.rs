@@ -137,6 +137,12 @@ pub fn init_site() -> io::Result<()> {
             match choice.trim() {
                 "1" => "porcif".to_string(),
                 "2" => "dracula".to_string(),
+                "3" => "warm".to_string(),
+                "4" => "nature".to_string(),
+                "5" => "neon".to_string(),
+                "6" => "minimal".to_string(),
+                "7" => "retro".to_string(),
+                "8" => "dark".to_string(),
                 "" => {
                     let themes = ["porcif", "dracula"];
                     let idx = rand::thread_rng().gen_range(0..themes.len());

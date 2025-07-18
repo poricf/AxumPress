@@ -1,11 +1,11 @@
-theme = "dracula"
+theme = "dark"
 template = "content_template"
 home_template = "home"
 code_theme = "atom-one-dark"
 
 [hero]
-name = "Zaferan"
-tagline = "Software engineer"
-image = "here"
-github_url = ""
-linkedin_url = ""
+name = "g"
+tagline = "h"
+image = "/static/chimp.jpg"
+github_url = "j"
+linkedin_url = "j"

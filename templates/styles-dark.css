@@ -90,12 +90,9 @@ body {
 .navbar {
   position: fixed;
   top: 0;
-  background: #001a33 !important;
-  background-color: #001a33 !important;
   left: 0;
   right: 0;
-  background: rgb(9, 107, 255);
-  background-color: #001a33;
+  background: rgba(13, 17, 23, 0.8);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
@@ -104,7 +101,9 @@ body {
 }
 
 .nav-container {
-  max-width: 1200;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #001a33;
   padding: 0 var(--spacing-lg);
   display: flex;
   justify-content: space-between;
