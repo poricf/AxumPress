@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blog-list-layout">
+  <div class="blog-list-header">
+    <h1>📝 Blog</h1>
+    <p>Thoughts, tutorials, and insights about web development, programming, and technology.</p>
+    
+    <div class="blog-filters">
+      <div class="filter-group">
+        <label for="category-filter">Category:</label>
+        <select id="category-filter">
+          <option value="all">All Categories</option>
+          <option value="tutorial">Tutorials</option>
+          <option value="thoughts">Thoughts</option>
+          <option value="projects">Projects</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="sort-filter">Sort by:</label>
+        <select id="sort-filter">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+        </select>
+      </div>
+      
+      <div class="search-group">
+        <input type="text" id="blog-search" placeholder="Search posts...">
+      </div>
+    </div>
+  </div>
+
+  <div class="blog-grid">
+    <!-- Start of the main loop that iterates over your posts -->
+    {% for post in posts %}
+    <article 
+      class="blog-card {% if post.front_matter.featured.unwrap_or(false) %}featured{% endif %}" 
+      data-category="{{ post.front_matter.category }}"
+      data-date="{{ post.front_matter.date }}">
+      
+      <!-- 
+        This is the new, smart image handler.
+        It checks if an image exists in the front-matter.
+      -->
+      <div class="card-image-container">
+        {% if let Some(image_url) = post.front_matter.image %}
+          <!-- If an image URL is provided, display it -->
+          <img src="{{ image_url }}" alt="{{ post.front_matter.title }}">
+        {% else %}
+          <!-- Otherwise, display a clean placeholder bar -->
+          <div class="placeholder-image-bar"></div>
+        {% endif %}
+      </div>
+
+      <!-- This is the content side of the card -->
+      <div class="card-content">
+        <div class="card-meta">
+          <span class="category">{{ post.front_matter.category }}</span>
+          <time class="date">{{ post.front_matter.date }}</time>
+          <span class="reading-time"></span>
+        </div>
+        
+        <h2><a href="/blog/{{ post.slug }}.html">{{ post.front_matter.title }}</a></h2>
+        
+        <p>{{ post.front_matter.excerpt }}</p>
+        
+        <div class="card-tags">
+          {% for tag in post.front_matter.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+    <!-- End of the main loop -->
+  </div>
+
+  <div class="pagination" id="pagination-container"></div>
+</div>
+{% endblock %}

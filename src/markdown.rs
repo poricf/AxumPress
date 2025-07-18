@@ -1,70 +1,67 @@
-// use std::{fs, io, path::Path};
-// use comrak::{markdown_to_html, ComrakOptions};
+// src/markdown.rs
 
-// pub fn process_markdown_files(
-//     dir: &str,
-//     html_template: &str
-// ) -> io::Result<Vec<(String, String, String)>> {
-//     let path = Path::new(dir);
-//     if !path.exists() {
-//         return Err(io::Error::new(io::ErrorKind::NotFound, "'content' directory not found"));
-//     }
+use crate::models::{FrontMatter, Post};
+use comrak::{markdown_to_html, ComrakOptions};
+use gray_matter::{engine::YAML, Matter};
+use serde::Deserialize;
+use std::{fs, io};
 
-//     let mut contents = Vec::new();
+pub fn process_markdown_files() -> io::Result<Vec<Post>> {
+    let content_dir = std::path::Path::new("content");
+    println!("[DEBUG] Searching for markdown files in: {:?}", content_dir.canonicalize().unwrap_or_else(|_| content_dir.to_path_buf()));
 
-//     for entry in fs::read_dir(path)? {
-//         let entry = entry?;
-//         let path = entry.path();
+    if !content_dir.exists() {
+        return Err(io::Error::new(io::ErrorKind::NotFound, "'content' directory not found at project root."));
+    }
 
-//         if path.extension().and_then(|e| e.to_str()) != Some("md") {
-//             continue;
-//         }
+    let mut posts = Vec::new();
+    let matter = Matter::<YAML>::new();
 
-//         let slug = path.file_stem()
-//             .ok_or_else(|| io::Error::new(io::ErrorKind::Other, "Invalid filename"))?
-//             .to_string_lossy()
-//             .to_string();
+    for entry in fs::read_dir(content_dir)? {
+        let entry = entry?;
+        let path = entry.path();
 
-//         let (html, preview) = markdown_2_html(path.to_str().unwrap(), html_template)?;
-//         fs::write(format!("output/content/{}.html", slug), html)?;
-//         contents.push((slug.clone(), slug, preview));
-//     }
+        if path.is_file() && path.extension().and_then(|s| s.to_str()) == Some("md") {
+            println!("[DEBUG] Processing file: {:?}", &path);
 
-//     Ok(contents)
-// }
+            let slug = path.file_stem().unwrap().to_str().unwrap().to_string();
+            let raw_content = fs::read_to_string(&path)?;
 
-// fn markdown_2_html(md_path: &str, html_template: &str) -> io::Result<(String, String)> {
-//     let markdown = fs::read_to_string(md_path)?;
+            let parsed_content = matter.parse(&raw_content);
+            if let Some(data) = parsed_content.data {
+                match data.deserialize::<FrontMatter>() {
+                    Ok(front_matter) => {
+                        println!("[SUCCESS] Parsed front-matter for: {}", &slug);
+                          let markdown_body = &parsed_content.content;
 
-//     let preview = extract_preview(&markdown, 200);
+                        let word_count = markdown_body.split_whitespace().count();
+                        const WORDS_PER_MINUTE: f64 = 225.0;
+                        let reading_time_minutes = (word_count as f64 / WORDS_PER_MINUTE).ceil() as u32;
 
-//     let mut options = ComrakOptions::default();
-//     options.extension.table = true;
-//     options.extension.strikethrough = true;
-//     options.extension.autolink = true;
-//     options.extension.tasklist = true;
-//     options.extension.footnotes = true;
-//     options.parse.smart = true;
-//     options.render.unsafe_ = true;
-//     options.extension.header_ids = Some("".to_string());
+                        
+                        let mut options = ComrakOptions::default();
+                        options.render.unsafe_ = true;
+                        options.extension.header_ids = Some("".to_string());
+                        let html_content = markdown_to_html(&parsed_content.content, &options);
 
-//     let html_body = markdown_to_html(&markdown, &options);
-//     let full_html = html_template.replace("{body}", &html_body);
+                        posts.push(Post {
+                            front_matter,
+                            slug,
+                            html_content,
+                            reading_time_minutes
+                        });
+                    },
+                    Err(e) => {
+                        println!("[ERROR] Failed to deserialize front-matter for file {:?}: {}", &path, e);
+                    }
+                }
+            } else {
+                println!("[WARN] No front-matter found for file: {:?}", &path);
+            }
+        }
+    }
 
-//     Ok((full_html, preview))
-// }
-
-// fn extract_preview(content: &str, max_len: usize) -> String {
-//     let clean = content
-//         .lines()
-//         .filter(|line| !line.trim_start().starts_with('#'))
-//         .collect::<Vec<_>>()
-//         .join(" ");
-
-//     let preview = clean.chars().take(max_len).collect::<String>();
-//     if clean.len() > max_len {
-//         format!("{}...", preview)
-//     } else {
-//         preview
-//     }
-// }
+    posts.sort_by(|a, b| b.front_matter.date.cmp(&a.front_matter.date));
+    println!("[INFO] Total posts processed successfully: {}", posts.len());
+    Ok(posts)
+}

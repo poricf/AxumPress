@@ -1,0 +1,206 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog of Fahmi Dinsefa</title>
+        <link rel="stylesheet" href="/css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/">Fahmi Dinsefa</a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/blog" class="nav-link">Blog</a>
+                    <a href="/about/about.html" class="nav-link">About</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+<div class="blog-layout">
+  <!-- Left Sidebar - Blog List -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-header">
+      <h3>📝 Blog Posts</h3>
+      <div class="search-box">
+        <input type="text" placeholder="Search posts..." id="blog-search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+    </div>
+    
+    <nav class="blog-nav">
+      <!-- This list is now dynamically generated -->
+      <div class="blog-category">
+        <button class="category-toggle active" data-category="all">
+          <span class="category-icon">🕒</span>
+          All Posts
+          <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6,9 12,15 18,9"/>
+          </svg>
+        </button>
+        <ul class="blog-list active">
+          <!-- Loop over all posts and create a link for each one -->
+          
+          <li><a href="/blog/part4.html" class="blog-link">How I Built This Blog (Final Part): A Thank You, and Why I Fell in Love with Rust</a></li>
+          
+          <li><a href="/blog/part3.html" class="blog-link">How I Built This Blog (Part 3): Bringing the Site to Life with CSS and JavaScript</a></li>
+          
+          <li><a href="/blog/part2.html" class="blog-link">How I Built This Blog (Part 2): The User Experience with Clap and Askama</a></li>
+          
+          <li><a href="/blog/part1.html" class="blog-link">How I Built This Blog (Part 1): From a Mentor&#x27;s Challenge to a Data Pipeline</a></li>
+          
+          <li><a href="/blog/hello.html" class="blog-link">Hello World!</a></li>
+          
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="blog-content">
+    <article class="blog-post">
+      <!-- Post header is now dynamic -->
+      <header class="post-header">
+        <div class="post-meta">
+          <span class="post-category">Projects</span>
+          <time class="post-date">2025-07-25</time>
+          <span class="reading-time">4 min read</span>
+        </div>
+        <h1 class="post-title">How I Built This Blog (Part 1): From a Mentor&#x27;s Challenge to a Data Pipeline</h1>
+        <p class="post-excerpt">It all started with a challenge from my mentor. &#x27;Build your own blog,&#x27; he said. That challenge sparked a journey into Rust that went far beyond just learning. Here’s the story of how this site came to be, starting with the core data pipeline.</p>
+        <div class="post-tags">
+          
+          <span class="tag">rust</span>
+          
+          <span class="tag">ssg</span>
+          
+          <span class="tag">learning</span>
+          
+          <span class="tag">mentorship</span>
+          
+        </div>
+      </header>
+
+      <!-- The markdown content is rendered here. The 'safe' filter is critical. -->
+      <div class="post-content">
+        <p>It all started with a challenge from my mentor, Matthew Harwood (Aurter). When I was starting out, he gave me a simple, yet profound, piece of advice: <strong>&quot;Build your own blog site so that you can write blogs in it.&quot;</strong></p>
+<p>It wasn't just about learning to code; it was about building a home for my own thoughts and creating a tool that was truly mine. Initially, I just aimed to learn Rust, but as I started building, I found myself falling in love with the process, the language's power, and the sheer satisfaction of creating something from scratch. This blog is the result of that journey.</p>
+<p>This series is the story of AxumPress, the little Rust engine that runs this site. In this first part, we're not even touching HTML yet. We're tackling the most fundamental challenge that my mentor's advice created: How do you turn a folder of simple text files into structured, usable data in memory?</p>
+<h3><a href="#the-first-hurdle-from-text-to-data" aria-hidden="true" class="anchor" id="the-first-hurdle-from-text-to-data"></a>The First Hurdle: From Text to Data</h3>
+<p>My first, primitive attempt was just reading a markdown file and crudely injecting its content into an HTML template using <code>string.replace()</code>. It worked, but it was ugly and inflexible. How would I get the title? The date? How could I show a <em>list</em> of posts on the homepage?</p>
+<p>This led me to the three core pillars of the AxumPress data pipeline.</p>
+<h4><a href="#pillar-1-front-matter-for-metadata-gray-matter" aria-hidden="true" class="anchor" id="pillar-1-front-matter-for-metadata-gray-matter"></a>Pillar 1: Front-Matter for Metadata (<code>gray-matter</code>)</h4>
+<p>A blog post is more than just its content. It has a title, a publication date, categories, tags... this is metadata. The standard way to handle this in the SSG world is with <strong>front-matter</strong>, a small block of YAML at the very top of your markdown file.</p>
+<p>This very post starts with it! The <code>gray-matter</code> crate for Rust is a lifesaver here. It takes a raw file and neatly splits it into two parts:</p>
+<ol>
+<li>The structured YAML data.</li>
+<li>The rest of the file (the markdown body).</li>
+</ol>
+<h4><a href="#pillar-2-the-markdown-engine-comrak" aria-hidden="true" class="anchor" id="pillar-2-the-markdown-engine-comrak"></a>Pillar 2: The Markdown Engine (<code>comrak</code>)</h4>
+<p>Once we have the markdown body, we need to convert it into HTML. The <code>comrak</code> crate is an incredibly powerful and spec-compliant CommonMark parser. We feed it the raw markdown string, and it spits out clean HTML, automatically handling headings, lists, code blocks, and more. We even configured it to automatically add <code>id</code> attributes to headings, which is crucial for the &quot;On this page&quot; table of contents to work.</p>
+<h4><a href="#pillar-3-the-post-struct-our-rust-blueprint" aria-hidden="true" class="anchor" id="pillar-3-the-post-struct-our-rust-blueprint"></a>Pillar 3: The <code>Post</code> Struct (Our Rust Blueprint)</h4>
+<p>This is where the Rust philosophy really shines. We don't want to pass around loose strings and bits of data. We want structure and safety. So, we define a &quot;blueprint&quot; for what a post is in our system.</p>
+<pre><code class="language-rust">// This is our Rust struct in src/models.rs
+pub struct Post {
+    pub front_matter: FrontMatter, // The metadata from YAML
+    pub slug: String,             // A URL-friendly name, like &quot;how-i-built-this&quot;
+    pub html_content: String,     // The final HTML from Comrak
+}
+</code></pre>
+<p><code>FrontMatter</code> is another struct that holds the title, date, category, etc.</p>
+<h3><a href="#the-final-pipeline-so-far" aria-hidden="true" class="anchor" id="the-final-pipeline-so-far"></a>The Final Pipeline (So Far)</h3>
+<p>With these tools, our blog extraction process becomes a clean, elegant pipeline:</p>
+<ol>
+<li><strong>Walk the Directory:</strong> The program starts by looking inside the <code>content/</code> folder for any file ending in <code>.md</code>.</li>
+<li><strong>Read and Parse:</strong> For each file, <code>gray-matter</code> splits it into metadata and markdown content.</li>
+<li><strong>Deserialize and Convert:</strong> We deserialize the metadata into our <code>FrontMatter</code> struct. Simultaneously, <code>comrak</code> converts the markdown content into an HTML string.</li>
+<li><strong>Assemble:</strong> We take all these clean pieces of data—the front-matter, the generated HTML, and a &quot;slug&quot; derived from the filename—and assemble them into our perfect <code>Post</code> struct.</li>
+<li><strong>Collect:</strong> Every <code>Post</code> struct is pushed into a single <code>Vec&lt;Post&gt;</code> (a list, for non-Rustaceans).</li>
+</ol>
+<p>At the end of this process, we have a single variable in our program: a perfectly ordered vector containing every single blog post, ready to be displayed.</p>
+<p>But how do we get that data onto a webpage? That involves the <em>other</em> half of the magic: the generator and the <strong>Askama</strong> templating engine. Askama allows us to write HTML templates that are type-checked by the Rust compiler, preventing a whole class of errors before the site even builds. It's the bridge that will take our <code>Vec&lt;Post&gt;</code> and turn it into the beautiful blog you're reading now.</p>
+<p>And that's exactly what we'll cover in <strong>Part 2</strong>. Stay tuned!</p>
+
+      </div>
+
+      <!-- Post footer is now dynamic -->
+      <footer class="post-footer">
+        <div class="post-author">
+          <img src="../images/fahmipp.JPG" alt="Author" class="author-avatar">
+          <div class="author-info">
+            <!-- Author name comes from the main site config (HeroConfig) -->
+            <h4>Fahmi Dinsefa</h4>
+            <p>Full-stack developer passionate about Rust and web technologies</p>
+          </div>
+        </div>
+        
+        <!-- The previous/next post navigation is a complex feature for a later version. -->
+      </footer>
+    </article>
+  </main>
+
+  <!-- Right Sidebar - Table of Contents -->
+  <aside class="toc-sidebar">
+    <div class="toc-header">
+      <h4>📋 On this page</h4>
+    </div>
+    <!-- This section is left static. The blog.js script will find the h2/h3 tags -->
+    <!-- in the rendered content and make these links work automatically.         -->
+    <nav class="table-of-contents">
+      <ul class="toc-list">
+        <!-- This list will be made functional by JavaScript -->
+      </ul>
+    </nav>
+    
+    <div class="toc-actions">
+      <button class="toc-action" id="share-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+          <polyline points="16,6 12,2 8,6"/>
+          <line x1="12" y1="2" x2="12" y2="15"/>
+        </svg>
+        Share
+      </button>
+      <button class="toc-action" id="bookmark-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+        </svg>
+        Bookmark
+      </button>
+    </div>
+  </aside>
+</div>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <p>&copy; 2025 Fahmi Dinsefa. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="/js/main.js"></script>
+        <script src="/js/blog.js"></script>
+    </body>
+    </html>

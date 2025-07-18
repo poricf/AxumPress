@@ -1,68 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>About This Project</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link href="https://cdn.jsdelivr.net/gh/andrewsun/gidole@master/fonts/webfont/gidole.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Gidole', Arial, sans-serif;
-            background: #181a1b;
-            color: #eaeaea;
-            margin: 0;
-            padding: 0;
-        }
-        .about-container {
-            max-width: 700px;
-            margin: 60px auto 0 auto;
-            background: #23272e;
-            border-radius: 12px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
-            padding: 2rem 2.5rem;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        p {
-            font-size: 1.2rem;
-            line-height: 1.7;
-        }
-        .signature {
-            margin-top: 2rem;
-            font-style: italic;
-            color: #b5b5b5;
-        }
-    </style>
-</head>
-<body>
-    <div class="about-container">
-        <h1>About This Project</h1>
-        <p>
-            <strong>Axumpress</strong> is a static site generator built in Rust, designed for speed, safety, and modern web standards.<br>
-            It uses <a href="https://github.com/djc/askama" target="_blank" style="color:#8be9fd;">Askama</a> for templating and <a href="https://github.com/kivikakk/comrak" target="_blank" style="color:#8be9fd;">Comrak</a> for Markdown parsing.
-        </p>
-        <p>
-            <strong>Features:</strong>
-            <ul>
-                <li>Write posts in Markdown</li>
-                <li>Customizable themes and templates</li>
-                <li>Fast static HTML generation</li>
-                <li>Easy deployment to any static host</li>
-            </ul>
-        </p>
-        <p>
-            <strong>Source code:</strong> <a href="https://github.com/poricf/axumpress" target="_blank" style="color:#8be9fd;">github.com/poricf/axumpress</a>
-        </p>
-        <p>
-            <strong>Author:</strong> Fahmi (Poricf)
-        </p>
-        <div class="signature">
-            &mdash; Built with Rust, ❤️, and Askama
-        </div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog of Fahmi Dinsefa</title>
+        <link rel="stylesheet" href="/css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/">Fahmi Dinsefa</a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/blog" class="nav-link">Blog</a>
+                    <a href="/about/about.html" class="nav-link">About</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+<div class="about-page">
+  <!-- This is the dynamic author card from your screenshot -->
+  <article class="author-card">
+    <div class="author-avatar">
+      <!-- The image source is pulled directly from your config.toml -->
+      <img src="../images/fahmipp.JPG" alt="Profile picture of Fahmi Dinsefa">
     </div>
-</body>
-</html>
+    <div class="author-info">
+      <h4>Fahmi Dinsefa</h4>
+      <p>Backend Software Engineer | Rust Developer</p>
+    </div>
+  </article>
+
+  <!-- This is the section about the project itself -->
+  <section class="project-about">
+    <h2>About AxumPress</h2>
+    <p>
+      AxumPress is the static site generator that powers this website. It was born from a challenge by my mentor to build my own blogging platform, and it quickly grew into a passion project for learning Rust.
+    </p>
+    <p>
+      The core philosophy is simplicity and control. It's a command-line first tool that turns simple Markdown files into a complete, fast, and deployable website. It uses some of the best tools in the Rust ecosystem, including the Askama templating engine for type-safe HTML and the Axum web framework for its live preview server.
+    </p>
+    <p>
+      If you're curious to see how it all works, the entire project is open source.
+    </p>
+    <a href="https://github.com/poricf/axumpress" class="cta-button" target="_blank">View on GitHub</a>
+  </section>
+</div>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <p>&copy; 2025 Fahmi Dinsefa. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="/js/main.js"></script>
+        <script src="/js/blog.js"></script>
+    </body>
+    </html>

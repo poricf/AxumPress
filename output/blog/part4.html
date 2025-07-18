@@ -1,0 +1,191 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog of Fahmi Dinsefa</title>
+        <link rel="stylesheet" href="/css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/">Fahmi Dinsefa</a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/blog" class="nav-link">Blog</a>
+                    <a href="/about/about.html" class="nav-link">About</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+<div class="blog-layout">
+  <!-- Left Sidebar - Blog List -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-header">
+      <h3>📝 Blog Posts</h3>
+      <div class="search-box">
+        <input type="text" placeholder="Search posts..." id="blog-search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+    </div>
+    
+    <nav class="blog-nav">
+      <!-- This list is now dynamically generated -->
+      <div class="blog-category">
+        <button class="category-toggle active" data-category="all">
+          <span class="category-icon">🕒</span>
+          All Posts
+          <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6,9 12,15 18,9"/>
+          </svg>
+        </button>
+        <ul class="blog-list active">
+          <!-- Loop over all posts and create a link for each one -->
+          
+          <li><a href="/blog/part4.html" class="blog-link">How I Built This Blog (Final Part): A Thank You, and Why I Fell in Love with Rust</a></li>
+          
+          <li><a href="/blog/part3.html" class="blog-link">How I Built This Blog (Part 3): Bringing the Site to Life with CSS and JavaScript</a></li>
+          
+          <li><a href="/blog/part2.html" class="blog-link">How I Built This Blog (Part 2): The User Experience with Clap and Askama</a></li>
+          
+          <li><a href="/blog/part1.html" class="blog-link">How I Built This Blog (Part 1): From a Mentor&#x27;s Challenge to a Data Pipeline</a></li>
+          
+          <li><a href="/blog/hello.html" class="blog-link">Hello World!</a></li>
+          
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="blog-content">
+    <article class="blog-post">
+      <!-- Post header is now dynamic -->
+      <header class="post-header">
+        <div class="post-meta">
+          <span class="post-category">Thoughts</span>
+          <time class="post-date">2025-08-05</time>
+          <span class="reading-time">3 min read</span>
+        </div>
+        <h1 class="post-title">How I Built This Blog (Final Part): A Thank You, and Why I Fell in Love with Rust</h1>
+        <p class="post-excerpt">The journey is complete (for now). In this final part, I want to extend a huge thank you to my mentor, reflect on the biggest challenges, and share why Rust&#x27;s unique approach to programming has completely won me over.</p>
+        <div class="post-tags">
+          
+          <span class="tag">rust</span>
+          
+          <span class="tag">reflection</span>
+          
+          <span class="tag">mentorship</span>
+          
+          <span class="tag">conclusion</span>
+          
+        </div>
+      </header>
+
+      <!-- The markdown content is rendered here. The 'safe' filter is critical. -->
+      <div class="post-content">
+        <p>We did it. From a simple challenge to a fully functional static site generator, AxumPress is alive. We've covered the data pipeline, the CLI, the templating engine, and the frontend polish. Now, for this final part, I want to step back from the code and talk about the journey itself.</p>
+<h3><a href="#a-foundation-of-gratitude" aria-hidden="true" class="anchor" id="a-foundation-of-gratitude"></a>A Foundation of Gratitude</h3>
+<p>First and foremost, none of this would have happened without the guidance and encouragement of my mentor, Matthew Harwood (Aurter). His simple challenge—&quot;Build your own blog&quot;—was the spark that ignited this entire project. It's a testament to the power of good mentorship: a simple nudge in the right direction can set you on a path of incredible growth and discovery. So, to Matthew, thank you. This project is a direct result of your wisdom.</p>
+<h3><a href="#the-challenges-that-shaped-the-code" aria-hidden="true" class="anchor" id="the-challenges-that-shaped-the-code"></a>The Challenges That Shaped the Code</h3>
+<p>Building anything from scratch is a series of facing walls and finding ways to climb over them. My biggest challenge was bridging the gap between Rust's backend logic and the frontend's need for data. My initial attempts were clumsy, leading to a tangled mess of string replacements. The breakthrough came when I established a clean, disciplined architecture:</p>
+<ol>
+<li><strong>Parse, Don't Pass:</strong> The markdown processor's only job became parsing files into a perfect <code>Vec&lt;Post&gt;</code>. It doesn't know or care about HTML templates.</li>
+<li><strong>Generate, Don't Think:</strong> The generator's only job is to take that <code>Vec&lt;Post&gt;</code> and pass it to a template. It doesn't know how the data was created.</li>
+<li><strong>Display, Don't Process:</strong> The Askama template's only job is to display the data it's given. It contains no complex logic.</li>
+</ol>
+<p>This separation of concerns was the key that unlocked the whole project.</p>
+<h3><a href="#why-i-truly-love-rust" aria-hidden="true" class="anchor" id="why-i-truly-love-rust"></a>Why I Truly Love Rust</h3>
+<p>Before this project, I just wanted to learn Rust. Now, I can say I genuinely love writing in it, and it comes down to one core concept: <strong>confidence</strong>.</p>
+<p>Being new to Rust, the initial learning curve was definitely challenging. I would try to write code like it was Python and make mistakes, only to be met with a compiler error that felt like a cryptic puzzle. But that's where the real learning began. The learning is not flat; there is always a new concept to grasp. My process became a cycle: hit an error, read the docs, watch a YouTube video, ask GPT for a different perspective, and then, finally, that &quot;aha!&quot; moment. It was tough, but cool.</p>
+<p>The Rust compiler is famously strict, but that strictness isn't a punishment; it's a partnership. The things you fight with in the beginning—the borrow checker, ownership, lifetimes—are the very things that give you superpowers later. When I refactored my code to pass data around, the compiler held my hand, forcing me to think about who <em>owns</em> the data at every step. The moment it compiles, you feel an incredible sense of security. You know that an entire class of memory bugs is simply impossible. You can build with confidence, knowing your foundation is rock-solid.</p>
+<h3><a href="#whats-next" aria-hidden="true" class="anchor" id="whats-next"></a>What's Next?</h3>
+<p>This is just the beginning. Now that I have a platform, I'm excited to write more—about Rust, about technology, and about the things I'm building.</p>
+<p>I will also continue to improve this site. I'm already dreaming of adding a command like <code>axumpress add post</code> to make content creation even easier. The beauty of owning your own tools is that you can shape them however you see fit.</p>
+<p>If you're curious to see the code that powers all of this, or if you want to use AxumPress for your own site, the entire project is open source. I would be honored if you took a look.</p>
+<p><strong><a href="https://github.com/poricf/axumpress">Check out the AxumPress GitHub Repository Here</a></strong></p>
+<p>Thank you for joining me on this journey. Now, let's go build something.</p>
+<pre><code></code></pre>
+
+      </div>
+
+      <!-- Post footer is now dynamic -->
+      <footer class="post-footer">
+        <div class="post-author">
+          <img src="../images/fahmipp.JPG" alt="Author" class="author-avatar">
+          <div class="author-info">
+            <!-- Author name comes from the main site config (HeroConfig) -->
+            <h4>Fahmi Dinsefa</h4>
+            <p>Full-stack developer passionate about Rust and web technologies</p>
+          </div>
+        </div>
+        
+        <!-- The previous/next post navigation is a complex feature for a later version. -->
+      </footer>
+    </article>
+  </main>
+
+  <!-- Right Sidebar - Table of Contents -->
+  <aside class="toc-sidebar">
+    <div class="toc-header">
+      <h4>📋 On this page</h4>
+    </div>
+    <!-- This section is left static. The blog.js script will find the h2/h3 tags -->
+    <!-- in the rendered content and make these links work automatically.         -->
+    <nav class="table-of-contents">
+      <ul class="toc-list">
+        <!-- This list will be made functional by JavaScript -->
+      </ul>
+    </nav>
+    
+    <div class="toc-actions">
+      <button class="toc-action" id="share-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+          <polyline points="16,6 12,2 8,6"/>
+          <line x1="12" y1="2" x2="12" y2="15"/>
+        </svg>
+        Share
+      </button>
+      <button class="toc-action" id="bookmark-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+        </svg>
+        Bookmark
+      </button>
+    </div>
+  </aside>
+</div>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <p>&copy; 2025 Fahmi Dinsefa. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="/js/main.js"></script>
+        <script src="/js/blog.js"></script>
+    </body>
+    </html>

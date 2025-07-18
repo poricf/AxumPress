@@ -1,11 +1,11 @@
-theme = "dark"
+theme = "porcif"
 template = "content_template"
 home_template = "home"
 code_theme = "atom-one-dark"
 
 [hero]
-name = "g"
-tagline = "h"
-image = "/static/chimp.jpg"
-github_url = "j"
-linkedin_url = "j"
+name = "Fahmi Dinsefa"
+tagline = "Backend Software Engineer | Rust Developer"
+image = "images/fahmipp.JPG"
+github_url = "https://github.com/poricf"
+linkedin_url = "https://www.linkedin.com/in/poricf"

@@ -1,0 +1,231 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog of Fahmi Dinsefa</title>
+        <link rel="stylesheet" href="/css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/">Fahmi Dinsefa</a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/blog" class="nav-link">Blog</a>
+                    <a href="/about/about.html" class="nav-link">About</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+<div class="blog-layout">
+  <!-- Left Sidebar - Blog List -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-header">
+      <h3>📝 Blog Posts</h3>
+      <div class="search-box">
+        <input type="text" placeholder="Search posts..." id="blog-search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+    </div>
+    
+    <nav class="blog-nav">
+      <!-- This list is now dynamically generated -->
+      <div class="blog-category">
+        <button class="category-toggle active" data-category="all">
+          <span class="category-icon">🕒</span>
+          All Posts
+          <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6,9 12,15 18,9"/>
+          </svg>
+        </button>
+        <ul class="blog-list active">
+          <!-- Loop over all posts and create a link for each one -->
+          
+          <li><a href="/blog/part4.html" class="blog-link">How I Built This Blog (Final Part): A Thank You, and Why I Fell in Love with Rust</a></li>
+          
+          <li><a href="/blog/part3.html" class="blog-link">How I Built This Blog (Part 3): Bringing the Site to Life with CSS and JavaScript</a></li>
+          
+          <li><a href="/blog/part2.html" class="blog-link">How I Built This Blog (Part 2): The User Experience with Clap and Askama</a></li>
+          
+          <li><a href="/blog/part1.html" class="blog-link">How I Built This Blog (Part 1): From a Mentor&#x27;s Challenge to a Data Pipeline</a></li>
+          
+          <li><a href="/blog/hello.html" class="blog-link">Hello World!</a></li>
+          
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="blog-content">
+    <article class="blog-post">
+      <!-- Post header is now dynamic -->
+      <header class="post-header">
+        <div class="post-meta">
+          <span class="post-category">Projects</span>
+          <time class="post-date">2025-07-28</time>
+          <span class="reading-time">4 min read</span>
+        </div>
+        <h1 class="post-title">How I Built This Blog (Part 2): The User Experience with Clap and Askama</h1>
+        <p class="post-excerpt">A static site generator is useless without a good user experience. In Part 2, I dive into how I built an interactive CLI with `clap` and used the powerful `askama` templating engine to finally bring the data from Part 1 to the screen.</p>
+        <div class="post-tags">
+          
+          <span class="tag">rust</span>
+          
+          <span class="tag">cli</span>
+          
+          <span class="tag">askama</span>
+          
+          <span class="tag">clap</span>
+          
+        </div>
+      </header>
+
+      <!-- The markdown content is rendered here. The 'safe' filter is critical. -->
+      <div class="post-content">
+        <p>In Part 1, we built the core data pipeline for AxumPress. We successfully turned a folder of markdown files into a structured <code>Vec&lt;Post&gt;</code> in our Rust program's memory. This was a huge step, but data in memory isn't a website. A website is what the user <em>sees</em>.</p>
+<p>I realized that if this tool was going to be useful to anyone else (or even to my future self), it couldn't just be a script I ran. It needed a proper user experience. It needed to be friendly, interactive, and powerful.</p>
+<p>This led to a new goal: <strong>since the backend was not enough for me, I also built a CLI for other users.</strong> I wanted anyone to be able to spin up their own site with just a few commands.</p>
+<p>This is the story of how I built that user experience using two incredible Rust crates: <code>clap</code> for the command-line interface and <code>askama</code> for templating.</p>
+<h3><a href="#giving-axumpress-a-voice-with-clap" aria-hidden="true" class="anchor" id="giving-axumpress-a-voice-with-clap"></a>Giving AxumPress a Voice with <code>clap</code></h3>
+<p>A good CLI feels like a conversation. To achieve this, I turned to <code>clap</code>, the undisputed king of command-line argument parsing in Rust. It lets you define your entire CLI structure—commands, subcommands, and arguments—using simple Rust structs and derives.</p>
+<p>Our CLI needed to do two main things:</p>
+<ol>
+<li><strong><code>init</code></strong>: A command to set up a new site for a first-time user.</li>
+<li><strong><code>serve</code></strong>: A command to build the site and preview it locally.</li>
+</ol>
+<p>The <code>init</code> command was where I could inject some personality. Instead of forcing users to manually edit a <code>config.toml</code> file, I built an interactive wizard.</p>
+<pre><code class="language-rust">// A simplified look at our CLI definition in src/cli.rs
+#[derive(Parser, Debug)]
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Commands,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    /// Start a new site with some simple questions
+    Init,
+    /// Build the site and open it locally
+    Serve,
+}
+</code></pre>
+<p>Running <code>axumpress init</code> now kicks off a series of prompts asking for your name, tagline, and social links. It even helps you choose a theme that matches your style. Once you're done, it saves everything to <code>config.toml</code>, and boom—your site is configured. This friendly onboarding process was a crucial step in making the project feel like a real product.</p>
+<h3><a href="#from-data-to-dom-with-askama" aria-hidden="true" class="anchor" id="from-data-to-dom-with-askama"></a>From Data to DOM with <code>askama</code></h3>
+<p>With our data ready and our CLI in place, we needed to solve the final puzzle: rendering the HTML. This is where <code>askama</code> comes in. It's a templating engine that feels like it was designed with Rust's best features in mind.</p>
+<p>Why Askama? <strong>Type Safety.</strong></p>
+<p>Unlike simple string replacement, Askama checks your templates at <em>compile time</em>. It knows that my <code>post_detail.html</code> template needs a <code>Post</code> struct and a <code>HeroConfig</code> struct. If I forget to pass one, or if I try to access a field that doesn't exist (like <code>post.titel</code> instead of <code>post.title</code>), the program won't even compile. This has saved me from countless &quot;oops, that page is blank&quot; errors.</p>
+<p>The process is beautiful:</p>
+<ol>
+<li>
+<p><strong>Define a Template Struct:</strong> In our <code>generator.rs</code> file, we define a struct that holds the data for a specific template.</p>
+<pre><code class="language-rust">#[derive(Template)]
+#[template(path = &quot;post_detail.html&quot;)] // Link to the HTML file
+struct PostDetailTemplate&lt;'a&gt; {
+    post: &amp;'a Post,
+    all_posts: &amp;'a Vec&lt;Post&gt;,
+    hero: &amp;'a HeroConfig,
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Write the HTML Template:</strong> In <code>templates/post_detail.html</code>, we write normal HTML but use Jinja2-style syntax to access the data.</p>
+<pre><code class="language-html">&lt;h1&gt;{{ post.front_matter.title }}&lt;/h1&gt;
+&lt;div class=&quot;post-content&quot;&gt;
+  {{ post.html_content|safe }}
+&lt;/div&gt;
+</code></pre>
+<p>The <code>|safe</code> filter is critical here—it tells Askama to render the <code>html_content</code> as raw HTML, not as plain text.</p>
+</li>
+<li>
+<p><strong>Render!</strong> Our <code>generator.rs</code> takes the <code>Vec&lt;Post&gt;</code> from the markdown processor, loops through it, and for each post, it creates an instance of <code>PostDetailTemplate</code> and calls <code>.render()</code>. Askama handles the rest, creating a complete HTML file for each post.</p>
+</li>
+</ol>
+<h3><a href="#the-final-result-a-deployable-output-folder" aria-hidden="true" class="anchor" id="the-final-result-a-deployable-output-folder"></a>The Final Result: A Deployable <code>output</code> Folder</h3>
+<p>After running the <code>axumpress serve</code> command, the magic is complete. The generator creates an <code>output/</code> folder containing everything: <code>index.html</code> for the homepage, all the CSS and JavaScript assets, and a <code>blog/</code> subdirectory with <code>index.html</code> for the post list and an individual HTML file for every single post.</p>
+<p>This <code>output</code> folder is self-contained and ready to be deployed anywhere—Netlify, Cloudflare Pages, GitHub Pages. Just drag and drop (or <code>git push</code>), and your site is live.</p>
+<p>Of course, the journey isn't over. The CLI can be expanded. I dream of commands like <code>axumpress add post</code>, which would prompt you for the title and category and create the markdown file for you. But for now, the core loop is complete: from a mentor's challenge, to a data pipeline, to a fully functional, user-friendly Static Site Generator. And that feels pretty amazing.</p>
+
+      </div>
+
+      <!-- Post footer is now dynamic -->
+      <footer class="post-footer">
+        <div class="post-author">
+          <img src="../images/fahmipp.JPG" alt="Author" class="author-avatar">
+          <div class="author-info">
+            <!-- Author name comes from the main site config (HeroConfig) -->
+            <h4>Fahmi Dinsefa</h4>
+            <p>Full-stack developer passionate about Rust and web technologies</p>
+          </div>
+        </div>
+        
+        <!-- The previous/next post navigation is a complex feature for a later version. -->
+      </footer>
+    </article>
+  </main>
+
+  <!-- Right Sidebar - Table of Contents -->
+  <aside class="toc-sidebar">
+    <div class="toc-header">
+      <h4>📋 On this page</h4>
+    </div>
+    <!-- This section is left static. The blog.js script will find the h2/h3 tags -->
+    <!-- in the rendered content and make these links work automatically.         -->
+    <nav class="table-of-contents">
+      <ul class="toc-list">
+        <!-- This list will be made functional by JavaScript -->
+      </ul>
+    </nav>
+    
+    <div class="toc-actions">
+      <button class="toc-action" id="share-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+          <polyline points="16,6 12,2 8,6"/>
+          <line x1="12" y1="2" x2="12" y2="15"/>
+        </svg>
+        Share
+      </button>
+      <button class="toc-action" id="bookmark-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+        </svg>
+        Bookmark
+      </button>
+    </div>
+  </aside>
+</div>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <p>&copy; 2025 Fahmi Dinsefa. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="/js/main.js"></script>
+        <script src="/js/blog.js"></script>
+    </body>
+    </html>

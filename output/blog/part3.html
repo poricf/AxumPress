@@ -1,0 +1,219 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog of Fahmi Dinsefa</title>
+        <link rel="stylesheet" href="/css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/">Fahmi Dinsefa</a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/blog" class="nav-link">Blog</a>
+                    <a href="/about/about.html" class="nav-link">About</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+<div class="blog-layout">
+  <!-- Left Sidebar - Blog List -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-header">
+      <h3>📝 Blog Posts</h3>
+      <div class="search-box">
+        <input type="text" placeholder="Search posts..." id="blog-search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+    </div>
+    
+    <nav class="blog-nav">
+      <!-- This list is now dynamically generated -->
+      <div class="blog-category">
+        <button class="category-toggle active" data-category="all">
+          <span class="category-icon">🕒</span>
+          All Posts
+          <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6,9 12,15 18,9"/>
+          </svg>
+        </button>
+        <ul class="blog-list active">
+          <!-- Loop over all posts and create a link for each one -->
+          
+          <li><a href="/blog/part4.html" class="blog-link">How I Built This Blog (Final Part): A Thank You, and Why I Fell in Love with Rust</a></li>
+          
+          <li><a href="/blog/part3.html" class="blog-link">How I Built This Blog (Part 3): Bringing the Site to Life with CSS and JavaScript</a></li>
+          
+          <li><a href="/blog/part2.html" class="blog-link">How I Built This Blog (Part 2): The User Experience with Clap and Askama</a></li>
+          
+          <li><a href="/blog/part1.html" class="blog-link">How I Built This Blog (Part 1): From a Mentor&#x27;s Challenge to a Data Pipeline</a></li>
+          
+          <li><a href="/blog/hello.html" class="blog-link">Hello World!</a></li>
+          
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="blog-content">
+    <article class="blog-post">
+      <!-- Post header is now dynamic -->
+      <header class="post-header">
+        <div class="post-meta">
+          <span class="post-category">Projects</span>
+          <time class="post-date">2025-08-01</time>
+          <span class="reading-time">4 min read</span>
+        </div>
+        <h1 class="post-title">How I Built This Blog (Part 3): Bringing the Site to Life with CSS and JavaScript</h1>
+        <p class="post-excerpt">A website is more than just HTML. In Part 3, I cover the final 10% that makes 90% of the difference: the frontend. Discover how I used CSS variables for theming and plain JavaScript to power interactive filters, sorting, and pagination.</p>
+        <div class="post-tags">
+          
+          <span class="tag">css</span>
+          
+          <span class="tag">javascript</span>
+          
+          <span class="tag">frontend</span>
+          
+          <span class="tag">ux</span>
+          
+        </div>
+      </header>
+
+      <!-- The markdown content is rendered here. The 'safe' filter is critical. -->
+      <div class="post-content">
+        <p>In the last two parts, we built a powerful engine. Our Rust code can now take markdown files, parse them into structured data, and use Askama templates to generate a complete set of static HTML pages. When we run <code>axumpress serve</code>, we get a functional <code>output/</code> folder.</p>
+<p>But when you open those pages in a browser, they're just... there. They're static. Dead. A modern website needs to feel alive. The buttons should react, the filters should filter, and the layout should be beautiful. This is the story of the final layer: the frontend polish.</p>
+<h3><a href="#the-styling-foundation-one-stylesheet-to-rule-them-all" aria-hidden="true" class="anchor" id="the-styling-foundation-one-stylesheet-to-rule-them-all"></a>The Styling Foundation: One Stylesheet to Rule Them All</h3>
+<p>Initially, I had different CSS files for different parts of the site, which was a nightmare to manage. The solution was to create a single, master stylesheet: <code>static/css/style.css</code>. This file styles everything, but the rules only apply when the corresponding HTML elements are on the page.</p>
+<p>The key to making the design feel cohesive was using <strong>CSS Custom Properties</strong> (also called CSS Variables). At the top of my stylesheet, I defined our &quot;Monokai Pro&quot; inspired theme.</p>
+<pre><code class="language-css">/* A snippet from static/css/style.css */
+:root {
+  /* Monokai Pro Color Palette */
+  --bg-primary: #2d2a2e;
+  --bg-secondary: #403e41;
+  --text-primary: #fcfcfa;
+  --accent-yellow: #ffd866;
+  --accent-cyan: #78dce8;
+}
+</code></pre>
+<p>By using <code>var(--bg-primary)</code> throughout the file instead of hardcoding <code>#2d2a2e</code>, I can change the entire site's theme just by swapping out these variables. This is the foundation for the theme-picker I built in the <code>init</code> command.</p>
+<h3><a href="#the-interactive-brain-vanilla-javascript" aria-hidden="true" class="anchor" id="the-interactive-brain-vanilla-javascript"></a>The Interactive Brain: Vanilla JavaScript</h3>
+<p>While Rust and Askama did the heavy lifting of preparing the content, <strong>JavaScript owns the browser</strong>. My goal was to add modern, interactive features without needing a heavy framework like React or Vue. Plain, vanilla JavaScript was more than powerful enough.</p>
+<p>The logic lives in two files: <code>main.js</code> for site-wide features and <code>blog.js</code> for the blog-specific magic.</p>
+<h4><a href="#1-filtering-and-sorting-the-data--attribute-bridge" aria-hidden="true" class="anchor" id="1-filtering-and-sorting-the-data--attribute-bridge"></a>1. Filtering and Sorting: The <code>data-*</code> Attribute Bridge</h4>
+<p>This was the biggest challenge. How do you filter posts on a static page? The answer is to let Rust put all the necessary information into the HTML, and let JavaScript handle the showing and hiding.</p>
+<p>In our <code>blog_index.html</code> template, we added special <code>data-*</code> attributes to each post's article tag:</p>
+<pre><code class="language-html">&lt;article 
+  class=&quot;blog-card&quot; 
+  data-category=&quot;{{ post.front_matter.category }}&quot;
+  data-date=&quot;{{ post.front_matter.date }}&quot;&gt;
+  &lt;!-- ... card content ... --&gt;
+&lt;/article&gt;
+</code></pre>
+<p>These attributes act as a hidden bridge between the backend and frontend. Now, our <code>blog.js</code> can read them.</p>
+<p>The filtering logic is simple but effective:</p>
+<ol>
+<li>On page load, grab <em>all</em> the blog card elements into an array.</li>
+<li>Add event listeners to the category dropdown, sort dropdown, and search input.</li>
+<li>Whenever a filter changes, loop through the <strong>original array of all cards</strong>.</li>
+<li>For each card, check if its <code>data-category</code> matches the selected category and if its title matches the search query.</li>
+<li>Clear the blog grid on the page and append only the cards that passed the filter.</li>
+</ol>
+<h4><a href="#2-smart-pagination-no-more-infinite-scrolling" aria-hidden="true" class="anchor" id="2-smart-pagination-no-more-infinite-scrolling"></a>2. Smart Pagination: No More Infinite Scrolling</h4>
+<p>Showing 50 blog posts on one page is slow and overwhelming. The pagination system works hand-in-hand with the filtering logic.</p>
+<ol>
+<li><strong>State Management:</strong> The script keeps track of the <code>currentPage</code> and how many <code>POSTS_PER_PAGE</code> to show.</li>
+<li><strong>Slicing the Array:</strong> After the posts are filtered and sorted, instead of showing all of them, we use <code>array.slice()</code> to grab just the chunk for the current page (e.g., posts 10 through 19 for page 2).</li>
+<li><strong>Dynamic Buttons:</strong> The script dynamically creates the &quot;Previous,&quot; &quot;Next,&quot; and page number buttons based on the total number of filtered posts. If there's only one page of results, the pagination disappears entirely.</li>
+</ol>
+<p>This client-side approach gives the feel of a dynamic server-rendered application but with the speed and simplicity of a static site.</p>
+<h3><a href="#the-final-product" aria-hidden="true" class="anchor" id="the-final-product"></a>The Final Product</h3>
+<p>With the CSS providing a beautiful and consistent theme, and the JavaScript adding a layer of rich interactivity, the project finally felt complete. It had fulfilled my mentor's challenge: it was a blog, built by me, for me, that I could actually use and be proud of.</p>
+<p>The journey from a simple idea to a fully-featured Static Site Generator has been an incredible learning experience. There's always more to do—like adding <code>axumpress add post</code> to the CLI—but the foundation is strong, the architecture is clean, and most importantly, it works.</p>
+<p>Thanks for following along. I hope this series has been as fun to read as the project was to build.</p>
+
+      </div>
+
+      <!-- Post footer is now dynamic -->
+      <footer class="post-footer">
+        <div class="post-author">
+          <img src="../images/fahmipp.JPG" alt="Author" class="author-avatar">
+          <div class="author-info">
+            <!-- Author name comes from the main site config (HeroConfig) -->
+            <h4>Fahmi Dinsefa</h4>
+            <p>Full-stack developer passionate about Rust and web technologies</p>
+          </div>
+        </div>
+        
+        <!-- The previous/next post navigation is a complex feature for a later version. -->
+      </footer>
+    </article>
+  </main>
+
+  <!-- Right Sidebar - Table of Contents -->
+  <aside class="toc-sidebar">
+    <div class="toc-header">
+      <h4>📋 On this page</h4>
+    </div>
+    <!-- This section is left static. The blog.js script will find the h2/h3 tags -->
+    <!-- in the rendered content and make these links work automatically.         -->
+    <nav class="table-of-contents">
+      <ul class="toc-list">
+        <!-- This list will be made functional by JavaScript -->
+      </ul>
+    </nav>
+    
+    <div class="toc-actions">
+      <button class="toc-action" id="share-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+          <polyline points="16,6 12,2 8,6"/>
+          <line x1="12" y1="2" x2="12" y2="15"/>
+        </svg>
+        Share
+      </button>
+      <button class="toc-action" id="bookmark-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+        </svg>
+        Bookmark
+      </button>
+    </div>
+  </aside>
+</div>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <p>&copy; 2025 Fahmi Dinsefa. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="/js/main.js"></script>
+        <script src="/js/blog.js"></script>
+    </body>
+    </html>

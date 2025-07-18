@@ -1,8 +1,11 @@
+// src/main.rs
+
 mod config;
 mod generator;
 mod markdown;
 mod server;
 mod cli;
+mod models; // <-- This line is critical
 
 use clap::Parser;
 use cli::{Cli, Commands, init_site, build_and_serve};

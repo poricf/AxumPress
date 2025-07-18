@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blog-layout">
+  <!-- Left Sidebar - Blog List -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-header">
+      <h3>📝 Blog Posts</h3>
+      <div class="search-box">
+        <input type="text" placeholder="Search posts..." id="blog-search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+    </div>
+    
+    <nav class="blog-nav">
+      <!-- This list is now dynamically generated -->
+      <div class="blog-category">
+        <button class="category-toggle active" data-category="all">
+          <span class="category-icon">🕒</span>
+          All Posts
+          <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6,9 12,15 18,9"/>
+          </svg>
+        </button>
+        <ul class="blog-list active">
+          <!-- Loop over all posts and create a link for each one -->
+          {% for p in all_posts %}
+          <li><a href="/blog/{{ p.slug }}.html" class="blog-link">{{ p.front_matter.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="blog-content">
+    <article class="blog-post">
+      <!-- Post header is now dynamic -->
+      <header class="post-header">
+        <div class="post-meta">
+          <span class="post-category">{{ post.front_matter.category }}</span>
+          <time class="post-date">{{ post.front_matter.date }}</time>
+          <span class="reading-time">{{ post.reading_time_minutes }} min read</span>
+        </div>
+        <h1 class="post-title">{{ post.front_matter.title }}</h1>
+        <p class="post-excerpt">{{ post.front_matter.excerpt }}</p>
+        <div class="post-tags">
+          {% for tag in post.front_matter.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </header>
+
+      <!-- The markdown content is rendered here. The 'safe' filter is critical. -->
+      <div class="post-content">
+        {{ post.html_content|safe }}
+      </div>
+
+      <!-- Post footer is now dynamic -->
+      <footer class="post-footer">
+        <div class="post-author">
+          <img src="../images/fahmipp.JPG" alt="Author" class="author-avatar">
+          <div class="author-info">
+            <!-- Author name comes from the main site config (HeroConfig) -->
+            <h4>{{ hero.name }}</h4>
+            <p>Full-stack developer passionate about Rust and web technologies</p>
+          </div>
+        </div>
+        
+        <!-- The previous/next post navigation is a complex feature for a later version. -->
+      </footer>
+    </article>
+  </main>
+
+  <!-- Right Sidebar - Table of Contents -->
+  <aside class="toc-sidebar">
+    <div class="toc-header">
+      <h4>📋 On this page</h4>
+    </div>
+    <!-- This section is left static. The blog.js script will find the h2/h3 tags -->
+    <!-- in the rendered content and make these links work automatically.         -->
+    <nav class="table-of-contents">
+      <ul class="toc-list">
+        <!-- This list will be made functional by JavaScript -->
+      </ul>
+    </nav>
+    
+    <div class="toc-actions">
+      <button class="toc-action" id="share-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+          <polyline points="16,6 12,2 8,6"/>
+          <line x1="12" y1="2" x2="12" y2="15"/>
+        </svg>
+        Share
+      </button>
+      <button class="toc-action" id="bookmark-post">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+        </svg>
+        Bookmark
+      </button>
+    </div>
+  </aside>
+</div>
+{% endblock %}

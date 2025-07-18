@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="about-page">
+  <!-- This is the dynamic author card from your screenshot -->
+  <article class="author-card">
+    <div class="author-avatar">
+      <!-- The image source is pulled directly from your config.toml -->
+      <img src="../images/fahmipp.JPG" alt="Profile picture of {{ hero.name }}">
+    </div>
+    <div class="author-info">
+      <h4>{{ hero.name }}</h4>
+      <p>{{ hero.tagline }}</p>
+    </div>
+  </article>
+
+  <!-- This is the section about the project itself -->
+  <section class="project-about">
+    <h2>About AxumPress</h2>
+    <p>
+      AxumPress is the static site generator that powers this website. It was born from a challenge by my mentor to build my own blogging platform, and it quickly grew into a passion project for learning Rust.
+    </p>
+    <p>
+      The core philosophy is simplicity and control. It's a command-line first tool that turns simple Markdown files into a complete, fast, and deployable website. It uses some of the best tools in the Rust ecosystem, including the Askama templating engine for type-safe HTML and the Axum web framework for its live preview server.
+    </p>
+    <p>
+      If you're curious to see how it all works, the entire project is open source.
+    </p>
+    <a href="{{ hero.github_url}}/axumpress" class="cta-button" target="_blank">View on GitHub</a>
+  </section>
+</div>
+{% endblock %}

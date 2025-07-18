@@ -1,0 +1,292 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog of Fahmi Dinsefa</title>
+        <link rel="stylesheet" href="/css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/">Fahmi Dinsefa</a>
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/blog" class="nav-link">Blog</a>
+                    <a href="/about/about.html" class="nav-link">About</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+<div class="blog-list-layout">
+  <div class="blog-list-header">
+    <h1>📝 Blog</h1>
+    <p>Thoughts, tutorials, and insights about web development, programming, and technology.</p>
+    
+    <div class="blog-filters">
+      <div class="filter-group">
+        <label for="category-filter">Category:</label>
+        <select id="category-filter">
+          <option value="all">All Categories</option>
+          <option value="tutorial">Tutorials</option>
+          <option value="thoughts">Thoughts</option>
+          <option value="projects">Projects</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="sort-filter">Sort by:</label>
+        <select id="sort-filter">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+        </select>
+      </div>
+      
+      <div class="search-group">
+        <input type="text" id="blog-search" placeholder="Search posts...">
+      </div>
+    </div>
+  </div>
+
+  <div class="blog-grid">
+    <!-- Start of the main loop that iterates over your posts -->
+    
+    <article 
+      class="blog-card " 
+      data-category="Thoughts"
+      data-date="2025-08-05">
+      
+      <!-- 
+        This is the new, smart image handler.
+        It checks if an image exists in the front-matter.
+      -->
+      <div class="card-image-container">
+        
+          <!-- Otherwise, display a clean placeholder bar -->
+          <div class="placeholder-image-bar"></div>
+        
+      </div>
+
+      <!-- This is the content side of the card -->
+      <div class="card-content">
+        <div class="card-meta">
+          <span class="category">Thoughts</span>
+          <time class="date">2025-08-05</time>
+          <span class="reading-time"></span>
+        </div>
+        
+        <h2><a href="/blog/part4.html">How I Built This Blog (Final Part): A Thank You, and Why I Fell in Love with Rust</a></h2>
+        
+        <p>The journey is complete (for now). In this final part, I want to extend a huge thank you to my mentor, reflect on the biggest challenges, and share why Rust&#x27;s unique approach to programming has completely won me over.</p>
+        
+        <div class="card-tags">
+          
+          <span class="tag">rust</span>
+          
+          <span class="tag">reflection</span>
+          
+          <span class="tag">mentorship</span>
+          
+          <span class="tag">conclusion</span>
+          
+        </div>
+      </div>
+    </article>
+    
+    <article 
+      class="blog-card " 
+      data-category="Projects"
+      data-date="2025-08-01">
+      
+      <!-- 
+        This is the new, smart image handler.
+        It checks if an image exists in the front-matter.
+      -->
+      <div class="card-image-container">
+        
+          <!-- Otherwise, display a clean placeholder bar -->
+          <div class="placeholder-image-bar"></div>
+        
+      </div>
+
+      <!-- This is the content side of the card -->
+      <div class="card-content">
+        <div class="card-meta">
+          <span class="category">Projects</span>
+          <time class="date">2025-08-01</time>
+          <span class="reading-time"></span>
+        </div>
+        
+        <h2><a href="/blog/part3.html">How I Built This Blog (Part 3): Bringing the Site to Life with CSS and JavaScript</a></h2>
+        
+        <p>A website is more than just HTML. In Part 3, I cover the final 10% that makes 90% of the difference: the frontend. Discover how I used CSS variables for theming and plain JavaScript to power interactive filters, sorting, and pagination.</p>
+        
+        <div class="card-tags">
+          
+          <span class="tag">css</span>
+          
+          <span class="tag">javascript</span>
+          
+          <span class="tag">frontend</span>
+          
+          <span class="tag">ux</span>
+          
+        </div>
+      </div>
+    </article>
+    
+    <article 
+      class="blog-card " 
+      data-category="Projects"
+      data-date="2025-07-28">
+      
+      <!-- 
+        This is the new, smart image handler.
+        It checks if an image exists in the front-matter.
+      -->
+      <div class="card-image-container">
+        
+          <!-- Otherwise, display a clean placeholder bar -->
+          <div class="placeholder-image-bar"></div>
+        
+      </div>
+
+      <!-- This is the content side of the card -->
+      <div class="card-content">
+        <div class="card-meta">
+          <span class="category">Projects</span>
+          <time class="date">2025-07-28</time>
+          <span class="reading-time"></span>
+        </div>
+        
+        <h2><a href="/blog/part2.html">How I Built This Blog (Part 2): The User Experience with Clap and Askama</a></h2>
+        
+        <p>A static site generator is useless without a good user experience. In Part 2, I dive into how I built an interactive CLI with `clap` and used the powerful `askama` templating engine to finally bring the data from Part 1 to the screen.</p>
+        
+        <div class="card-tags">
+          
+          <span class="tag">rust</span>
+          
+          <span class="tag">cli</span>
+          
+          <span class="tag">askama</span>
+          
+          <span class="tag">clap</span>
+          
+        </div>
+      </div>
+    </article>
+    
+    <article 
+      class="blog-card featured" 
+      data-category="Projects"
+      data-date="2025-07-25">
+      
+      <!-- 
+        This is the new, smart image handler.
+        It checks if an image exists in the front-matter.
+      -->
+      <div class="card-image-container">
+        
+          <!-- Otherwise, display a clean placeholder bar -->
+          <div class="placeholder-image-bar"></div>
+        
+      </div>
+
+      <!-- This is the content side of the card -->
+      <div class="card-content">
+        <div class="card-meta">
+          <span class="category">Projects</span>
+          <time class="date">2025-07-25</time>
+          <span class="reading-time"></span>
+        </div>
+        
+        <h2><a href="/blog/part1.html">How I Built This Blog (Part 1): From a Mentor&#x27;s Challenge to a Data Pipeline</a></h2>
+        
+        <p>It all started with a challenge from my mentor. &#x27;Build your own blog,&#x27; he said. That challenge sparked a journey into Rust that went far beyond just learning. Here’s the story of how this site came to be, starting with the core data pipeline.</p>
+        
+        <div class="card-tags">
+          
+          <span class="tag">rust</span>
+          
+          <span class="tag">ssg</span>
+          
+          <span class="tag">learning</span>
+          
+          <span class="tag">mentorship</span>
+          
+        </div>
+      </div>
+    </article>
+    
+    <article 
+      class="blog-card " 
+      data-category="Test"
+      data-date="2025-07-20">
+      
+      <!-- 
+        This is the new, smart image handler.
+        It checks if an image exists in the front-matter.
+      -->
+      <div class="card-image-container">
+        
+          <!-- Otherwise, display a clean placeholder bar -->
+          <div class="placeholder-image-bar"></div>
+        
+      </div>
+
+      <!-- This is the content side of the card -->
+      <div class="card-content">
+        <div class="card-meta">
+          <span class="category">Test</span>
+          <time class="date">2025-07-20</time>
+          <span class="reading-time"></span>
+        </div>
+        
+        <h2><a href="/blog/hello.html">Hello World!</a></h2>
+        
+        <p>A simple test post to ensure the static site generator is working as expected.</p>
+        
+        <div class="card-tags">
+          
+          <span class="tag">testing</span>
+          
+        </div>
+      </div>
+    </article>
+    
+    <!-- End of the main loop -->
+  </div>
+
+  <div class="pagination" id="pagination-container"></div>
+</div>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <p>&copy; 2025 Fahmi Dinsefa. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="/js/main.js"></script>
+        <script src="/js/blog.js"></script>
+    </body>
+    </html>
